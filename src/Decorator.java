@@ -1,5 +1,15 @@
-public abstract class Decorator implements Messages {
+public abstract class Decorator implements ChatClient {
 
-    private Messages messages;
-    public Decorator(Messages messages) { this.messages = messages; }
+    private ChatClient decoratee;
+    public Decorator(ChatClient chatClient) { decoratee = chatClient; }
+
+    @Override
+    public Message getMessage() {
+        return decoratee.getMessage();
+    }
+
+    @Override
+    public void sendMessage(Message message) {
+        decoratee.sendMessage(message);
+    }
 }

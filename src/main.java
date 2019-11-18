@@ -1,23 +1,21 @@
 public class main {
     public static void main(String []args){
+        Client client = new Client();
         Message message = new Message();
-        message.setAuthor("Алексей");
-        message.setRecivier("Владимир");
-        message.setText("Данное сообщение является тестовым");
-        Client client = new Client(message);
+        message.setAuthor("Владимир");
+        message.setText("Данное сообщение тестовое");
+        message.setRecivier("Валерий");
 
-        System.out.println("Обычное сообщение");
+        //Обычное сообщение
         client.sendMessage(message);
-
-        System.out.println("------------------");
-        System.out.println("Сообщение с зашифрованным именем");
-        Messages userEncrypt = new UserEncryptDecorator(client);
-        userEncrypt.sendMessage(message);
-
-
-        System.out.println("------------------");
-        System.out.println("Сообщение с зашифрованным именем и текстом");
-        Messages userAndTextEncrypt = new UserEncryptDecorator(new TextEncryptDecorator (client));
-        userAndTextEncrypt.sendMessage(message);
+        client.getMessage();
+        //Декоратор возвращающий сообщение с закодированным сообщением
+        Decorator textEncrytp = new TextEncryptDecorator(client);
+        textEncrytp.sendMessage(message);
+        textEncrytp.getMessage();
+        //Декоратор возвращающий сообщение с закодированным именем и сообщением
+        Decorator textAndUserEncrypt = new TextEncryptDecorator(new UserEncryptDecorator(client));
+        textAndUserEncrypt.sendMessage(message);
+        textAndUserEncrypt.getMessage();
     }
 }

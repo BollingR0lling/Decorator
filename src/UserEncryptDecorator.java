@@ -2,16 +2,16 @@ import java.util.Base64;
 
 class UserEncryptDecorator extends Decorator {
 
-    public UserEncryptDecorator(Messages messages) { super(messages); }
+    public UserEncryptDecorator(ChatClient chatClient) { super(chatClient); }
 
-    public void getMessage() {
-
+    @Override
+    public Message getMessage() {
+        return encodeUser(super.getMessage());
     }
 
-    public void sendMessage(Message message) {
-        System.out.println(encode(message.getAuthor()));
-        System.out.println(message.getText());
-        System.out.println(message.getRecivier());
+    public Message encodeUser(Message message){
+        message.setAuthor(encode(message.getAuthor()));
+        return message;
     }
 
     public String encode(String author){
@@ -21,12 +21,11 @@ class UserEncryptDecorator extends Decorator {
         }
         return Base64.getEncoder().encodeToString(result);
     }
-    public String decode(String author){
-        byte[] result = Base64.getDecoder().decode(author);
-        for(int i=0 ; i<result.length ; i++){
-            result[i] -= (byte)-1;
-        }
-        return new String(result);
-    }
-
+//    public String decode(String author){
+//        byte[] result = Base64.getDecoder().decode(author);
+//        for(int i=0 ; i<result.length ; i++){
+//            result[i] -= (byte)-1;
+//        }
+//        return new String(result);
+//    }
 }
